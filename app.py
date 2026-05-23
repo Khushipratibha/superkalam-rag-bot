@@ -5,6 +5,7 @@ from sentence_transformers import SentenceTransformer
 from groq import Groq
 import os
 from dotenv import load_dotenv
+import subprocess
 
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -15,6 +16,11 @@ st.caption("Powered by today's NewsOnAir articles | Built as a SuperKalam protot
 
 @st.cache_resource
 def load_data():
+    if not os.path.exists("data/articles.json"):
+        import subprocess
+        st.info("Scraping today's news, please wait...")
+        subprocess.run(["python", "setup.py"])
+    
     with open("data/articles.json", "r", encoding="utf-8") as f:
         articles = json.load(f)
     embeddings = np.load("data/embeddings.npy")
