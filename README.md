@@ -1,6 +1,6 @@
-# 📰 Current Affairs AI Tutor — SuperKalam Prototype
+# 📰 Current Affairs AI Chatbot
 
-A RAG-based chatbot that scrapes today's news from NewsOnAir every day and answers UPSC current affairs questions in real time — built as a prototype of what SuperKalam could ship.
+A RAG-based chatbot that scrapes today's news from NewsOnAir every day and answers current affairs questions in real time.
 
 ![App Screenshot](screenshot.png)
 

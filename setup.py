@@ -5,16 +5,22 @@ import os
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
-BASE_URL = "https://newsonair.gov.in/category/national/"
+CATEGORY_URLS = [
+    "https://newsonair.gov.in/category/national/",
+    "https://newsonair.gov.in/category/international/",
+    "https://newsonair.gov.in/category/business/",
+    "https://newsonair.gov.in/category/sports/",
+    "https://newsonair.gov.in/category/miscellaneous/",
+]
 headers = {"User-Agent": "Mozilla/5.0"}
 
-def get_article_links():
-    response = requests.get(BASE_URL, headers=headers)
+def get_article_links(base_url):
+    response = requests.get(base_url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
     links = []
     for a in soup.find_all("a", href=True):
         href = a["href"]
-        if "newsonair.gov.in" in href and href not in [BASE_URL, "https://newsonair.gov.in/"]:
+        if "newsonair.gov.in" in href and href not in [base_url, "https://newsonair.gov.in/"]:
             if "/category/" not in href and "/audio" not in href and "/bulletin" not in href:
                 links.append(href)
     return list(set(links))
@@ -31,9 +37,15 @@ def get_article_text(url):
     except:
         return None
 
-print("Fetching article links...")
-links = get_article_links()
-print(f"Found {len(links)} articles")
+print("Fetching article links from all categories...")
+all_links = set()
+for url in CATEGORY_URLS:
+    category_links = get_article_links(url)
+    print(f"  {url} -> {len(category_links)} links")
+    all_links.update(category_links)
+
+links = list(all_links)
+print(f"\nTotal unique articles found across all categories: {len(links)}")
 
 articles = []
 for link in links:

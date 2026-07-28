@@ -12,7 +12,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 st.set_page_config(page_title="Current Affairs AI Tutor", page_icon="📰")
 st.title("📰 Current Affairs AI Tutor")
-st.caption("Powered by today's NewsOnAir articles | Built as a SuperKalam prototype")
+st.caption("Powered by today's NewsOnAir articles | Your current affairs help")
 
 @st.cache_resource
 def load_data():
