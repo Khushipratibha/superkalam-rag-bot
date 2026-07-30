@@ -6,12 +6,12 @@ from groq import Groq
 import os
 from dotenv import load_dotenv
 import subprocess
-
+import random
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-st.set_page_config(page_title="Current Affairs AI Tutor", page_icon="📰")
-st.title("📰 Current Affairs AI Tutor")
+st.set_page_config(page_title="Today's News Assistant", page_icon="📰")
+st.title("📰 Today's News Assistant")
 st.caption("Powered by today's NewsOnAir articles | Your current affairs help")
 
 @st.cache_resource
@@ -30,7 +30,18 @@ def load_data():
 articles, embeddings, embedder = load_data()
 st.success(f"Loaded {len(articles)} today's news articles. Ask me anything!")
 
-query = st.text_input("Ask about today's current affairs:", placeholder="e.g. What happened with fuel prices today?")
+placeholders = [
+    "e.g. What's the big story today?",
+    "e.g. Any major government announcements today?",
+    "e.g. What happened in the markets today?",
+    "e.g. Catch me up on today's sports news",
+    "e.g. Anything happening internationally today?",
+]
+
+query = st.text_input(
+    "Ask about today's news:",
+    placeholder=random.choice(placeholders)
+)
 
 if query:
     with st.spinner("Finding relevant news..."):
@@ -43,7 +54,7 @@ if query:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[
-                {"role": "system", "content": "You are a helpful current affairs tutor for UPSC aspirants. Answer clearly based on the context provided. If the answer is not in the context, say so."},
+                {"role": "system", "content": "You are a current affairs assistant. Answer ONLY using the provided context. If the answer is not present in the context, reply exactly: 'This is not covered in today's scraped articles.' Do not suggest general advice."},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
             ]
         )
