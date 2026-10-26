@@ -7,7 +7,7 @@ A RAG-based chatbot that scrapes today's news from NewsOnAir every day and answe
 ## How it works
 
 1. `setup.py` scrapes today's articles from NewsOnAir and builds a vector index using sentence-transformers
-2. `app.py` runs a Streamlit chatbot — when a user asks a question, it finds the most relevant articles using cosine similarity and passes them as context to Llama 3.1 via Groq API
+2. `app.py` runs a Streamlit chatbot — when a user asks a question, it finds the most relevant articles using cosine similarity and passes them as context to GPT-OSS 20B (OpenAI open-weight model)
 3. The LLM answers only from today's scraped content, keeping answers grounded and current
 
 ## Why this matters for UPSC prep
@@ -27,5 +27,5 @@ streamlit run app.py   # start the chatbot
 - Scraping: requests + BeautifulSoup
 - Embeddings: sentence-transformers (all-MiniLM-L6-v2)
 - Vector search: NumPy cosine similarity
-- LLM: Llama 3.1 via Groq API
+- LLM: GPT-OSS 20B (OpenAI open-weight model) via Groq API
 - UI: Streamlit

@@ -52,7 +52,7 @@ if query:
 
         client = Groq(api_key=GROQ_API_KEY)
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="openai/gpt-oss-20b",
             messages=[
                 {"role": "system", "content": "You are a current affairs assistant. Answer ONLY using the provided context. If the answer is not present in the context, reply exactly: 'This is not covered in today's scraped articles.' Do not suggest general advice."},
                 {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"}
